@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ ! -d ".git" ]; then
+  # No need to do anything
+  exit
+fi
+
+GITUSER=$(gitUser)
+SSH=$(gitSSH)
+
+if [ "$SSH" == "true" ]; then
+  git remote add upstream git@github.com:hacs/development.git
+else
+  git remote add upstream https://github.com/hacs/development.git
+fi
+
+mv .git ..git

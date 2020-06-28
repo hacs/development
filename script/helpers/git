@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function gitSSH() {
+  if [ -f ".gitssh" ]; then
+    # Stored
+    RESULT=$(cat .gitssh)
+  else
+    if [[ $(git remote get-url origin) == *"git@github"* ]]; then
+      ## SSH
+      RESULT="true"
+    else
+      # HTTPS
+      RESULT="false"
+    fi
+  fi
+
+  echo "$RESULT" > .gitssh
+  printf "$RESULT"
+}
+
+function gitUser() {
+  if [ -f ".gituser" ]; then
+    # Stored
+    RESULT=$(cat .gituser)
+  else
+    if [[ $(git remote get-url origin) == *"git@github"* ]]; then
+      ## SSH
+      RESULT=$(git remote get-url origin | cut -d ":" -f 2 | cut -d "/" -f 1)
+    else
+      # HTTPS
+      RESULT=$(git remote get-url origin | cut -d "/" -f 4)
+    fi
+  fi
+
+  echo "$RESULT" > .gituser
+  printf "$RESULT"
+}

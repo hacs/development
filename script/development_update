@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mv ..git .git
+git pull upstream master
+mv .git ..git

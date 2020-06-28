@@ -1,0 +1,36 @@
+{
+  "name": "HACS Development",
+  "image": "ludeeus/container:monster",
+  "context": "..",
+  "appPort": ["9123:8123", "5000:5000", "3000:3000"],
+  "extensions": [
+    "github.vscode-pull-request-github",
+    "ms-python.python",
+    "ryanluker.vscode-coverage-gutters",
+    "tabnine.tabnine-vscode",
+    "auchenberg.vscode-browser-preview",
+    "bierner.lit-html",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "github.vscode-pull-request-github",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "redhat.vscode-yaml",
+    "runem.lit-plugin",
+    "tabnine.tabnine-vscode"
+  ],
+  "settings": {
+    "files.eol": "\n",
+    "editor.tabSize": 2,
+    "python.pythonPath": "/usr/bin/python",
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "files.trimTrailingWhitespace": true
+  }
+}

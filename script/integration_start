@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+CURRENT_DIR=$(pwd)
+
+if [ ! -d "${CURRENT_DIR}/repositories/integration" ]; then
+  echo "Missing the repository, run 'make integration-init'"
+  exit
+fi
+
+# Make the config dir
+mkdir -p /tmp/config
+
+
+# Symplink the custom_components dir
+if [ ! -d "/tmp/config/custom_components" ]; then
+  rm -rf /tmp/config/custom_components
+  ln -sf "${CURRENT_DIR}/repositories/integration/custom_components/" /tmp/config/custom_components
+fi
+
+# Symlink configuration.yaml
+if [ ! -f "${CURRENT_DIR}/repositories/integration/.devcontainer/configuration.yaml" ]; then
+  cp ${CURRENT_DIR}/repositories/integration/.devcontainer/sample_configuration.yaml ${CURRENT_DIR}/repositories/integration/.devcontainer/configuration.yaml
+fi
+ln -sf "${CURRENT_DIR}/repositories/integration/.devcontainer/configuration.yaml" /tmp/config/configuration.yaml
+
+
+# Start Home Assistant
+hass -c /tmp/config

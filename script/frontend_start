@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+CURRENT_DIR=$(pwd)
+
+if [ ! -d "${CURRENT_DIR}/repositories/frontend" ]; then
+  echo "Missing the repository, run 'make frontend-init'"
+  exit
+fi
+
+cd "${CURRENT_DIR}/repositories/frontend"
+
+# Start the frontend server
+yarn start

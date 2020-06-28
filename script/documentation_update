@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+CURRENT_DIR=$(pwd)
+
+if [ ! -d "${CURRENT_DIR}/repositories/documentation" ]; then
+  echo "Missing the repository, run 'make documentation-init'"
+  exit
+fi
+
+cd "${CURRENT_DIR}/repositories/documentation"
+
+# Pull latest
+git pull upstream master
+
+# Install pacakges
+yarn

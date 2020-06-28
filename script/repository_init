@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+source script/helpers/git
+
+GITUSER=$(gitUser)
+SSH=$(gitSSH)
+REPO=$1
+
+echo $GITUSER
+echo $SSH
+
+mkdir -p ./repositories/${REPO}
+cd ./repositories/${REPO}
+git init
+
+if [ "$SSH" == "true" ]; then
+  git remote add origin git@github.com:${GITUSER}/${REPO}.git
+  git remote add upstream git@github.com:hacs/${REPO}.git
+else
+  git remote add origin https://github.com/${GITUSER}/${REPO}.git
+  git remote add upstream https://github.com/hacs/${REPO}.git
+fi
+
+git pull upstream master
