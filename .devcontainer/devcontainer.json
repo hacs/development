@@ -3,6 +3,11 @@
   "image": "ludeeus/container:monster",
   "context": "..",
   "appPort": ["9123:8123", "5000:5000", "3000:3000"],
+  "postStartCommand": "bash script/github_cli",
+  "runArgs": [
+    "-v",
+    "${env:HOME}${env:USERPROFILE}/.config/gh:/root/.config/gh"
+  ],
   "extensions": [
     "github.vscode-pull-request-github",
     "ms-python.python",

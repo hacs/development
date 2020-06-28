@@ -4,6 +4,7 @@ This repository contains all you need to contribute to the HACS project.
 
 ## Usage
 
+1. Install and configure [gh CLI](https://github.com/cli/cli) on the host.
 1. Fork this repository.
 1. Clone the repository locally.
 1. Start the devcontainer.

@@ -2,20 +2,9 @@
 
 CURRENT_DIR=$(pwd)
 
-source "${CURRENT_DIR}/script/helpers/git"
-
-if [ ! -d ".git" ]; then
+if [ ! -d "${CURRENT_DIR}/.git" ]; then
   # No need to do anything
   exit
 fi
 
-GITUSER=$(gitUser)
-SSH=$(gitSSH)
-
-if [ "$SSH" == "true" ]; then
-  git remote add upstream git@github.com:hacs/development.git
-else
-  git remote add upstream https://github.com/hacs/development.git
-fi
-
-mv .git ..git
+mv "${CURRENT_DIR}/.git" "${CURRENT_DIR}/..git"

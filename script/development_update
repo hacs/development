@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
+CURRENT_DIR=$(pwd)
 
-mv ..git .git
+mv "${CURRENT_DIR}/..git" "${CURRENT_DIR}/.git"
+
 git pull upstream master
-mv .git ..git
+
+mv "${CURRENT_DIR}/.git" "${CURRENT_DIR}/..git"
