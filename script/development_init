@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+CURRENT_DIR=$(pwd)
+
+source "${CURRENT_DIR}/script/helpers/git"
+
 if [ ! -d ".git" ]; then
   # No need to do anything
   exit
