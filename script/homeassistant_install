@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-python -m pip --disable-pip-version-check install -U setuptools wheel
-python -m pip --disable-pip-version-check \
-  install --upgrade git+git://github.com/home-assistant/home-assistant.git@dev

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-CURRENT_DIR=$(pwd)
-
-cd "${CURRENT_DIR}/repositories/frontend"
-
-# Install pacakges
-yarn

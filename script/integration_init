@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-cd repositories/integration
-
-python -m pip --disable-pip-version-check install setuptools wheel
-python -m pip --disable-pip-version-check install -r requirements.txt
