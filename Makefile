@@ -39,6 +39,9 @@ homeassistant-install: ## Install the latest dev version of Home Assistant
 
 homeassistant-update: homeassistant-install ## Alias for 'homeassistant-install'
 
+init: gh-cli
+	@bash completion
+
 development-init:
 	@ if [ -d ".git" ]; then mv .git ..git; fi
 
