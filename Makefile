@@ -32,13 +32,6 @@ default-%:
 
 
 ##@ Misc:
-homeassistant-install: ## Install the latest dev version of Home Assistant
-	python -m pip --disable-pip-version-check install -U setuptools wheel
-	python -m pip --disable-pip-version-check \
-		install --upgrade git+git://github.com/home-assistant/home-assistant.git@dev;
-
-homeassistant-update: homeassistant-install ## Alias for 'homeassistant-install'
-
 init: gh-cli
 	@bash completion
 
