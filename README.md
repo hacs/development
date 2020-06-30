@@ -12,38 +12,24 @@ This repository contains all you need to contribute to the HACS project.
 
 ```bash
 container# make help
-Development environment for HACS
+Development environment for HACS 
 
-Integration:
-  make integration-init           Initialize the integration repository
-  make integration-start          Start the HA with the integration
-  make integration-test           Run pytest
-  make integration-update         Pull master from hacs/integration
+Integration
+  make integration-init       Initialize the integration repository
 
-Frontend:
-  make frontend-init              Initialize the frontend repository
-  make frontend-start             Start the frontend
-  make frontend-bootstrap         Run yarn
-  make frontend-build             Build the frontend
-  make frontend-update            Pull master from hacs/frontend
+Frontend
+  make frontend-init          Initialize the frontend repository
 
-Documentation:
-  make documentation-init         Initialize the documentation repository
-  make documentation-start        Start a local server for the documentation
-  make documentation-bootstrap    Run yarn
-  make documentation-build        Build the documentation
-  make documentation-update       Pull master from hacs/documentation
+Documentation
+  make documentation-init     Initialize the documentation repository
 
-Default:
-  make default-init               Initialize the default repository
-  make default-add                Add a new repository to the default HACS list
-  make default-remove             Remove a repository to the default HACS list
-  make default-update             Pull master from hacs/default
+Default
+  make default-init           Initialize the default repository
 
 Misc:
-  make homeassistant-install      Install the latest dev version of Home Assistant
-  make homeassistant-update       Alias for 'homeassistant-install'
-  make development-update         Pull master from hacs/development
-  make clean                      Delete all repositories
-  make help                       Shows this message.
+  make homeassistant-install  Install the latest dev version of Home Assistant
+  make homeassistant-update  Alias for 'homeassistant-install'
+  make pull        Pull master from hacs/development
+  make clean       Delete all repositories
+  make help        Shows help message.
 ```

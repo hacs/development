@@ -1,70 +1,34 @@
+MAKEFLAGS += --no-print-directory
 .DEFAULT_GOAL := help
 
-##@ Integration:
-integration-init: development-init homeassistant-install ## Initialize the integration repository
-	cd repositories && 	gh repo fork hacs/integration --clone=true --remote=true;
-	cd repositories/integration && \
-		python -m pip --disable-pip-version-check install setuptools wheel && \
-		python -m pip --disable-pip-version-check install -r requirements.txt
+integration-init: development-init homeassistant-install
+	@ cd repositories && 	gh repo fork hacs/integration --clone=true --remote=true;
+	- cd repositories/documentation && ${MAKE} --no-print-directory init;
 
-integration-start: ## Start the HA with the integration
-	@bash script/integration_start;
+frontend-init: development-init
+	@ cd repositories && 	gh repo fork hacs/frontend --clone=true --remote=true;
+	- cd repositories/documentation && ${MAKE} --no-print-directory init;
 
-integration-test: ## Run pytest
-	cd repositories/integration && python -m pytest;
+documentation-init: development-init
+	@ cd repositories && 	gh repo fork hacs/documentation --clone=true --remote=true;
+	- cd repositories/documentation && ${MAKE} --no-print-directory init
 
-integration-update: ## Pull master from hacs/integration
-	cd repositories/integration && git pull upstream master;
-
-
-##@ Frontend:
-frontend-init: development-init ## Initialize the frontend repository
-	cd repositories && 	gh repo fork hacs/frontend --clone=true --remote=true;
-	make frontend-bootstrap
-
-frontend-start: ## Start the frontend
-	cd repositories/frontend && yarn start;
-
-frontend-bootstrap: ## Run yarn
-	cd repositories/frontend && yarn;
-
-frontend-build: ## Build the frontend
-	cd repositories/frontend && yarn build;
-
-frontend-update: ## Pull master from hacs/frontend
-	cd repositories/frontend && git pull upstream master;
+default-init: development-init
+	@ cd repositories && 	gh repo fork hacs/default --clone=true --remote=true;
+	@ cd repositories/default && ${MAKE} --no-print-directory init
 
 
-##@ Documentation:
-documentation-init: development-init ## Initialize the documentation repository
-	cd repositories && 	gh repo fork hacs/documentation --clone=true --remote=true;
-	cd repositories/documentation && yarn;
+integration-%:
+	@ cd repositories/integration && ${MAKE} --no-print-directory $(subst integration-,,$@)
 
-documentation-start: ## Start a local server for the documentation
-	cd repositories/documentation && yarn start;
+frontend-%:
+	@ cd repositories/frontend && ${MAKE} --no-print-directory $(subst frontend-,,$@)
 
-documentation-bootstrap: ## Run yarn
-	cd repositories/documentation && yarn;
+documentation-%:
+	@ cd repositories/documentation && ${MAKE} --no-print-directory $(subst documentation-,,$@)
 
-documentation-build: ## Build the documentation
-	cd repositories/documentation && yarn build;
-
-documentation-update: ## Pull master from hacs/documentation
-	cd repositories/documentation && git pull upstream master;
-
-
-##@ Default:
-default-init: development-init ## Initialize the default repository
-	cd repositories && 	gh repo fork hacs/default --clone=true --remote=true;
-
-default-add: ## Add a new repository to the default HACS list
-	@echo not implemented;
-
-default-remove: ## Remove a repository to the default HACS list
-	@bash script/default_remove;
-
-default-update: ## Pull master from hacs/default
-	cd repositories/default && git pull upstream master;
+default-%:
+	@ cd repositories/default && ${MAKE} --no-print-directory $(subst default-,,$@)
 
 
 ##@ Misc:
@@ -78,10 +42,11 @@ homeassistant-update: homeassistant-install ## Alias for 'homeassistant-install'
 development-init:
 	@ if [ -d ".git" ]; then mv .git ..git; fi
 
-development-update: ## Pull master from hacs/development
-	mv ..git .git;
-	git pull upstream master;
-	mv .git ..git;
+pull: ## Pull master from hacs/development
+	@ mv ..git .git;
+	@ git pull upstream master;
+	@ mv .git ..git;
+
 
 clean: ## Delete all repositories
 	rm -rf repositories;
@@ -94,7 +59,20 @@ gh-cli:
 	mv /srv/gh-cli/bin/gh /usr/local/bin/;
 	@bash -c "if [[ $$(git remote get-url origin) == *'git@github'* ]]; then gh config set git_protocol ssh; fi";
 
-help: ## Shows this message.
+help: ## Shows help message.
 	@printf "\033[1m%s\033[36m %s\033[0m \n" "Development environment for" "HACS";
-	@awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make %-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
-	@echo;
+
+	@printf "\n\033[1m%s\033[0m\n" Integration;
+	@if test -f repositories/integration/Makefile; then cat repositories/integration/Makefile | awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make integration-%-10s\033[0m %s\n", $$1, $$2 }';	else printf " \033[36m make integration-%-10s\033[0m %s\n" "init" "Initialize the integration repository";fi;
+
+	@printf "\n\033[1m%s\033[0m\n" Frontend;
+	@if test -f repositories/frontend/Makefile; then cat repositories/frontend/Makefile | awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make frontend-%-10s\033[0m %s\n", $$1, $$2 }';	else printf " \033[36m make frontend-%-10s\033[0m %s\n" "init" "Initialize the frontend repository";fi;
+
+	@printf "\n\033[1m%s\033[0m\n" Documentation;
+	@if test -f repositories/documentation/Makefile; then cat repositories/documentation/Makefile | awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make documentation-%-10s\033[0m %s\n", $$1, $$2 }';	else printf " \033[36m make documentation-%-10s\033[0m %s\n" "init" "Initialize the documentation repository";fi;
+
+	@printf "\n\033[1m%s\033[0m\n" Default;
+	@if test -f repositories/default/Makefile; then cat repositories/default/Makefile | awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make default-%-10s\033[0m %s\n", $$1, $$2 }';	else printf " \033[36m make default-%-10s\033[0m %s\n" "init" "Initialize the default repository";fi;
+
+	@awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make %-10s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST);
+	@echo
